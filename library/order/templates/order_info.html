@@ -1,0 +1,179 @@
+{% extends 'homepage/base.html'%}
+
+{% block body %}
+<form method="POST" action="{% url 'delete_order' order.id %}">
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Id</th>
+      <th scope="col">User Id</th>
+      <th scope="col">Book Id</th>
+      <th scope="col">Created At</th>
+      <th scope="col">End At</th>
+      <th scope="col">Plated End At</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{{ order.id }}</td>
+      <td>{{ order.user.id }}</td>
+      <td>{{ order.book.id }}</td>
+      <td>{{ order.created_at }}</td>
+      <td>{{ order.end_at }}</td>
+      <td>{{ order.plated_end_at }}</td>
+      <td>
+
+           {% csrf_token %}
+        {% if user.is_superuser %}
+         <div class="form-group">
+            <button type="submit" class="btn btn-danger">Close an order</button>
+        </div>
+        {% endif %}
+      </td>
+    </tr>
+  </tbody>
+</table>
+</form>
+<ul>
+
+</ul>
+<style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #e6f2ff;
+        margin: 0;
+        padding: 0;
+      }
+
+      h1 {
+        font-size: 20px;
+        margin-bottom: 15px;
+        color: #336699;
+      }
+
+      form {
+        width: 1000px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f2f2f2;
+        border: 1px solid #c2c2d6;
+        border-radius: 5px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 10px;
+        font-size: 14px;
+        font-weight: bold;
+        color: #336699;
+      }
+
+      input[type="text"],
+      textarea {
+        padding: 5px;
+        border: 1px solid #c2c2d6;
+        border-radius: 3px;
+        font-size: 14px;
+        width: 100%;
+        max-width: 300px;
+        margin-bottom: 15px;
+        color: #336699;
+      }
+
+      input[type="submit"] {
+        background-color: #99ccff;
+        color: #fff;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 3px;
+        font-size: 14px;
+        cursor: pointer;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #6699cc;
+      }
+
+      /* Navigation Bar */
+ .navbar {
+  background-color: #c7ddef;
+  overflow: hidden;
+  border: 1px solid #b3cde0;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.navbar a {
+  float: left;
+  display: block;
+  color: #333;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.navbar a:hover {
+  background-color: #b3cde0;
+  color: black;
+}
+
+.navbar a.active {
+  background-color: #336699;
+  color: white;
+}
+
+.navbar .icon {
+  display: none;
+}
+
+@media screen and (max-width: 600px) {
+  .navbar a:not(:first-child) {
+    display: none;
+  }
+  .navbar a.icon {
+    float: right;
+    display: block;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .navbar.responsive {
+    position: relative;
+  }
+  .navbar.responsive .icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .navbar.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+}
+
+      /* List Group */
+      .list-group {
+        max-width: 300px;
+        margin: 0 auto;
+        margin-top: 20px;
+      }
+
+      .list-group-item {
+        color: #336699;
+      }
+
+      .list-group-item.active {
+        background-color: #336699;
+        color: white;
+        border-color: #336699;
+      }
+
+      .list-group-item:hover {
+        background-color: #f2f2f2;
+      }
+
+    </style>
+{% endblock %}

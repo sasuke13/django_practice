@@ -1,0 +1,228 @@
+{% extends 'homepage/base.html' %}
+{% block body %}
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #e6f2ff;
+        margin: 0;
+        padding: 0;
+      }
+
+      h1 {
+        font-size: 20px;
+        margin-bottom: 15px;
+        color: #336699;
+      }
+
+      form {
+        width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f2f2f2;
+        border: 1px solid #c2c2d6;
+        border-radius: 5px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 10px;
+        font-size: 14px;
+        font-weight: bold;
+        color: #336699;
+      }
+
+      input[type="text"],
+      textarea {
+        padding: 5px;
+        border: 1px solid #c2c2d6;
+        border-radius: 3px;
+        font-size: 14px;
+        width: 100%;
+        max-width: 300px;
+        margin-bottom: 15px;
+        color: #336699;
+      }
+
+      input[type="submit"] {
+        background-color: #99ccff;
+        color: #fff;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 3px;
+        font-size: 14px;
+        cursor: pointer;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #6699cc;
+      }
+
+      /* Navigation Bar */
+ .navbar {
+  background-color: #c7ddef;
+  overflow: hidden;
+  border: 1px solid #b3cde0;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.navbar a {
+  float: left;
+  display: block;
+  color: #333;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.navbar a:hover {
+  background-color: #b3cde0;
+  color: black;
+}
+
+.navbar a.active {
+  background-color: #336699;
+  color: white;
+}
+
+.navbar .icon {
+  display: none;
+}
+
+@media screen and (max-width: 600px) {
+  .navbar a:not(:first-child) {
+    display: none;
+  }
+  .navbar a.icon {
+    float: right;
+    display: block;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .navbar.responsive {
+    position: relative;
+  }
+  .navbar.responsive .icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .navbar.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+}
+
+      /* List Group */
+      .list-group {
+        max-width: 300px;
+        margin: 0 auto;
+        margin-top: 20px;
+      }
+
+      .list-group-item {
+        color: #336699;
+      }
+
+      .list-group-item.active {
+        background-color: #336699;
+        color: white;
+        border-color: #336699;
+      }
+
+      .list-group-item:hover {
+        background-color: #f2f2f2;
+      }
+
+/* Table styles */
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even){background-color: #f2f2f2}
+
+th {
+  background-color: #333;
+  color: white;
+}
+
+
+</style>
+
+<div class="navbar" id="myNavbar">
+  <a href="/">Home</a>
+  <a href="{% url 'create_order'%}">Create order</a>
+  <a href="{% url 'order' %}">List of orders</a>
+  <a href="{% url 'logout' %}">Logout</a>
+
+</div>
+{% if request.path == "/order/" %}
+<table>
+  <tr>
+    <th>Id</th>
+    <th>User Id</th>
+    <th>Book Id</th>
+    <th>Created At</th>
+    <th>End At</th>
+    <th>Plated End At</th>
+  </tr>
+    {% for order in text %}
+    <tr>
+    <td>{{ order.id }}</td>
+      <td>{{ order.user.id }}</td>
+      <td>{{ order.book.id }}</td>
+      <td>{{ order.created_at }}</td>
+      <td>{{ order.end_at }}</td>
+      <td>{{ order.plated_end_at }}</td>
+         <td>
+                <a href="{% url 'get_order_info'  id=order.id %}">
+                    <button type="button" class="btn btn-info">info</button>
+                </a>
+            </td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+{% endif %}
+{% if request.path == "/order/create_order/" %}
+  <form method="POST">
+    <h1>Create order</h1>
+    {% csrf_token %}
+
+    <label for="book_id">Book:</label>
+    <input type="number" id="book_id" name="book_id">
+
+    <label for="plated_end_at">Plated end at:</label>
+    <input type="date" id="plated_end_at" name="plated_end_at">
+
+    <input type="submit" value="Create order">
+  </form>
+{% endif %}
+
+{% if request.path == "/order/update_order/" %}
+  <form method="POST">
+    <h1>Update order</h1>
+    {% csrf_token %}
+    <label for="plated_end_at">Plated end at:</label>
+    <input type="date" id="plated_end" name="plated_end_at">
+
+    <label for="end_at">End at:</label>
+    <input type="date" id="end_at" name="end_at">
+    <input type="submit" value="Update order">
+  </form>
+{% endif %}
+
+
+
+{% endblock %}

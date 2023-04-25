@@ -1,0 +1,39 @@
+
+{% extends 'homepage/base.html'%}
+
+{%block body%}
+{% load static %}
+<div class="navbar" id="myNavbar">
+  <a href="http://127.0.0.1:8000">Home</a>
+  {% if user.is_authenticated %}
+  <a href="http://127.0.0.1:8000/users/">Users</a>
+  <a href="http://127.0.0.1:8000/book/">Books</a>
+  <a href="http://127.0.0.1:8000/order/">Orders</a>
+  {% if user.is_superuser %}
+  <a href="http://127.0.0.1:8000/author/">Authors</a>
+  {% endif %}
+   <a href="http://127.0.0.1:8000/authentication/logout/">Logout</a>
+  {% else %}
+  <a href="http://127.0.0.1:8000/authentication/login/">Login</a>
+  <a href="http://127.0.0.1:8000/authentication/registration/">Registration</a>
+  {% endif %}
+
+</div>
+   {% if messages %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      {% for mes in messages %}
+        {{mes}}
+      {% endfor %}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+{% endif %}
+{% if user.is_authenticated %}
+<form>
+  <h1>You are on our library page! Choose an option from above.</h1>
+</form>
+{% else %}
+<form>
+  <h1>You are not logged in! Please, login or sign up.</h1>
+</form>
+{% endif %}
+{%endblock%}

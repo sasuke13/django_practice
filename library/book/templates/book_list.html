@@ -1,0 +1,108 @@
+{% extends 'homepage/base.html' %}
+{% block body %}
+{% csrf_token %}
+<div>
+<a href="{% url 'book' %}" methods="get">  </a><br>
+<a href="{% url 'create_book' %}">
+    <button type="button" class="btn btn-info">Create book</button>
+</a>
+ <form method="GET" action="{% url 'book' %}">
+        <input type="text" name="searchTerm" value="{{ search_term }}">
+        <button type="submit">Search</button>
+    </form>
+</div>
+<table id="books">
+    <thead>
+            <td>id</td>
+            <td>name</td>
+            <td>description</td>
+              <td>{{button}}</td>
+
+    </thead>
+    <tbody>
+        {% for book in books %}
+        <tr>
+            <td>{{book.id}}</td>
+            <td>{{book.name}}</td>
+            <td>{{book.description}}</td>
+            <td>{{button}}</td>
+
+            <td>
+                <a href="{% url 'get_book_info'  id=book.id %}">
+                    <button type="button" class="btn btn-info">info</button>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<style>
+    html, body {
+      height: 100%;
+    }
+    h2 {
+        position: center;
+        margin: 20;
+        top: 50%;
+        left: 50%;
+    }
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #e6f2ff;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+    }
+
+.btn btn-info{
+background-color:#333;
+}
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        overflow: hidden;
+        box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+
+    th, td {
+        padding: 15px;
+        background-color: rgba(255,255,255,0.2);
+        color:#0a58ca;
+    }
+
+    th {
+        text-align: center;
+    }
+
+    thead {
+        th {
+            background-color: #55608f;
+        }
+    }
+
+    tbody {
+        tr {
+            &:hover {
+                background-color: rgba(255,255,255,0.3);
+            }
+        }
+        td {
+            position: relative;
+            &:hover {
+                &:before {
+                    content: "";
+                    position: absolute;
+                    left: 0;
+                    right: 0;
+                    top: -9999px;
+                    bottom: -9999px;
+                    background-color: rgba(255,255,255,0.2);
+                    z-index: -1;
+
+                }
+            }
+        }
+    }
+</style>
+{% endblock %}
